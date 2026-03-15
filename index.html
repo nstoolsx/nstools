@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NS Tools</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="content">
+
+<h1 class="title">NS TOOLS</h1>
+
+<hr class="red-line">
+
+<div class="notice-box">
+<div class="notice-text">
+Welcome To NS Tools | New Tools Coming Soon
+</div>
+</div>
+
+<div class="tools">
+
+<button class="tool-btn"
+onclick="openModal()">Encode & Decode</button>
+
+<button class="tool-btn"
+onclick="openBgModal()"style="display: none;">Photo Background Remove</button>
+
+<button class="tool-btn"
+ onclick="thumbModal()">Thumbnail Downloader</button>
+
+<button class="tool-btn"
+onclick="qrModal()">QR Generator</button>
+
+<button class="tool-btn"
+onclick="tiktokModal()">TikTok Downloader</button>
+
+<button class="tool-btn"
+onclick="linkModal()">Link Checker</button>
+
+<button class="tool-btn"
+onclick="imageModal()">Image to Link</button>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        
+        <h2 class="glitch-title">Encode & Decode</h2>
+        
+        <textarea id="inputText" placeholder="Enter your text here..."></textarea>
+        
+        <div class="button-container">
+           <button class="tool-btn action-btn" onclick="encodeText()">🔐 Encode</button>
+
+<button class="tool-btn action-btn" onclick="decodeText()">🔓 Decode</button>
+        </div>
+        
+        <div class="result-container">
+            <div id="resultDisplay" class="result-text">Awaiting input...</div>
+            <button class="copy-btn" onclick="copyResult()">Copy</button>
+        </div>
+
+        <div class="modal-footer">
+            Developed by <span class="developer-name">| Sazzad</span>
+        </div>
+    </div>
+</div>
+
+<!-- Modal HTML (তোমার আগের মতো) -->
+<div id="bgModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeBgModal()">&times;</span>
+    <h2 class="glitch-title">Background Remover</h2>
+
+    <div class="upload-box">
+      <input type="file" id="imageInput" accept="image/*" onchange="previewImage()">
+      <p style="color: #888; font-size: 12px; margin-top: 5px;">Select an image (No API required)</p>
+    </div>
+
+    <div id="previewArea" style="margin-top: 15px; display: none;">
+      <img id="imgPreview" src="" style="max-width: 100%; border-radius: 10px; border: 1px solid #00f7ff;">
+      
+      <div id="downloadBox" style="display: none; margin-top: 10px;">
+        <p style="color: #0f0; font-size: 14px; margin-bottom: 8px;">✨ Processing Complete!</p>
+        <a id="downloadLink" href="#" download="Sazzad_Tools_NoBG.png">
+          <button class="copy-btn">📥 Download PNG</button>
+        </a>
+      </div>
+    </div>
+
+    <div class="button-container">
+      <button id="removeBtn" class="tool-btn action-btn" onclick="removeBackground()">✨ Remove BG</button>
+    </div>
+
+    <div class="modal-footer">
+      Developed by <span class="developer-name">| Sazzad</span>
+    </div>
+  </div>
+</div>
+
+<!-- JS (Browser-friendly) -->
+<script src="https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/bundle.js"></script>
+<script>
+async function removeBackground() {
+    const fileInput = document.getElementById("imageInput");
+    if (!fileInput.files[0]) { alert("আগে একটি ছবি সিলেক্ট করুন!"); return; }
+
+    const file = fileInput.files[0];
+    const removeBtn = document.getElementById("removeBtn");
+    removeBtn.innerText = "⏳ Processing...";
+
+    try {
+        // Browser-friendly function
+        const blob = await window.ImglyBackgroundRemoval.backgroundRemoval(file);
+        const url = URL.createObjectURL(blob);
+
+        document.getElementById("imgPreview").src = url;
+        document.getElementById("previewArea").style.display = "block";
+        document.getElementById("downloadBox").style.display = "block";
+        document.getElementById("downloadLink").href = url;
+    } catch (err) {
+        console.error(err);
+        alert("Background remove failed");
+    }
+
+    removeBtn.innerText = "✨ Remove BG";
+}
+</script>
+
+
+<!-- Thamneil Download -->
+
+<div id="thumbModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeThumbModal()">&times;</span>
+        <h2 class="glitch-title">Thumbnail Downloader</h2>
+        
+        <div class="upload-box" style="border: 1px dashed #00f7ff; padding: 20px;">
+            <input type="text" id="videoUrl" placeholder="Paste YouTube Link Here..." 
+            style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background: #111; color: #fff;">
+            <p style="color: #888; font-size: 12px; margin-top: 10px;">Example: https://www.youtube.com/watch?v=xxxx</p>
+        </div>
+
+        <div id="thumbResult" style="display: none; margin-top: 15px;">
+             <img id="thumbPreview" src="" style="width: 100%; border-radius: 10px; border: 1px solid #00f7ff;">
+    
+             <button class="copy-btn" style="width: 100%; margin-top: 10px;" onclick="downloadThumbnail()">
+                📥 Download Thumbnail
+            </button>
+        </div>>
+
+        <div class="button-container">
+            <button class="tool-btn action-btn" onclick="getThumbnails()">✨ Get Thumbnail</button>
+        </div>
+
+        <div class="modal-footer">
+            Developed by <span class="developer-name">| Sazzad</span>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- (QR) -->
+
+<div id="qrModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeQRModal()">&times;</span>
+        
+        <h2 class="glitch-title">QR Generator</h2>
+        
+        <div class="upload-box" style="border: 1px dashed #00f7ff; padding: 20px;">
+            <input type="text" id="qrText" placeholder="Paste link or text here..." 
+            style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background: #111; color: #fff; outline: none;">
+        </div>
+
+        <div id="qrResult" style="display: none; margin-top: 15px; text-align: center;">
+             <div id="qrcode" style="background: #fff; padding: 10px; border-radius: 10px; display: inline-block; border: 1px solid #00f7ff;"></div>
+    
+             <button class="copy-btn" style="width: 80%; margin-top: 10px;" onclick="downloadQR()">
+                📥 Download QR Code
+            </button>
+        </div>
+
+        <div class="button-container" style="display: flex; justify-content: center; margin-top: 20px;">
+            <button class="tool-btn action-btn" style="width: auto; padding: 10px 30px;" onclick="generateQR()">
+                ✨ Generate QR
+            </button>
+        </div>
+
+        <div class="modal-footer">
+            Developed by <span class="developer-name">| Sazzad</span>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="tiktokModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeTiktokModal()">&times;</span>
+        
+        <h2 class="glitch-title">TikTok Downloader</h2>
+        
+        <div class="upload-box" style="border: 1px dashed #00f7ff; padding: 20px;">
+            <input type="text" id="tiktokUrl" placeholder="Paste TikTok video link..." 
+            style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background: #111; color: #fff; outline: none;">
+            <p style="color: #888; font-size: 12px; margin-top: 10px;">Example: https://vt.tiktok.com/xxxxxx/</p>
+        </div>
+
+        <div id="tiktokResult" style="display: none; margin-top: 15px; text-align: center;">
+             <p id="tiktokTitle" style="color: #fff; margin-bottom: 10px; font-size: 14px;"></p>
+             
+             <button id="tiktokDLBtn" class="copy-btn" style="width: auto; padding: 10px 40px;" onclick="">
+                📥 Download Video
+            </button>
+        </div>
+
+        <div class="button-container" style="display: flex; justify-content: center; margin-top: 20px;">
+            <button id="tiktokGetBtn" class="tool-btn action-btn" style="width: auto; padding: 10px 40px;" onclick="getTiktokVideo()">
+                ✨ Get Video
+            </button>
+        </div>
+
+        <div class="modal-footer">
+            Developed by <span class="developer-name">| Sazzad</span>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="linkModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeLinkModal()">&times;</span>
+        
+        <h2 class="glitch-title">Link Checker</h2>
+        
+        <div class="upload-box" style="border: 1px dashed #00f7ff; padding: 20px;">
+            <input type="text" id="linkUrl" placeholder="Paste URL to check safety..." 
+            style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background: #111; color: #fff; outline: none;">
+            <p style="color: #888; font-size: 12px; margin-top: 10px;">Check if the link is safe or broken.</p>
+        </div>
+
+        <div id="linkResult" style="display: none; margin-top: 15px; text-align: center; padding: 15px; border-radius: 10px; background: rgba(0,0,0,0.3);">
+             <p id="linkStatus" style="color: #fff; font-weight: bold; font-size: 16px; margin-bottom: 5px;"></p>
+             <p id="linkSafety" style="font-size: 14px;"></p>
+        </div>
+
+        <div class="button-container" style="display: flex; justify-content: center; margin-top: 20px;">
+            <button id="checkBtn" class="tool-btn action-btn" style="width: auto; padding: 10px 40px;" onclick="checkLink()">
+                🔍 Check Link
+            </button>
+        </div>
+
+        <div class="modal-footer">
+            Developed by <span class="developer-name">| Sazzad</span>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="imageModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeImageModal()">&times;</span>
+        
+        <h2 class="glitch-title">Image to Link</h2>
+        
+<div class="upload-box" style="border: 1px dashed #00f7ff; padding: 20px; text-align: center;">
+    <input type="file" id="imageInput" accept="image/*" style="display: none;">
+    <label for="imageInput" style="cursor: pointer; display: block;">
+        <img id="localPreview" src="" style="display: none; width: 100%; max-height: 150px; object-fit: contain; margin-bottom: 10px; border-radius: 8px; border: 1px solid #333;">
+        <div id="dropText" style="color: #00f7ff;">📁 Click to Select Image</div>
+    </label>
+</div>
+
+<div id="imageResult" style="display: none; margin-top: 15px; text-align: center;">
+     <input type="text" id="imageUrl" readonly style="width: 100%; padding: 10px; background: #111; color: #00f7ff; border: 1px solid #333; text-align: center; border-radius: 8px;">
+     <button class="copy-btn" style="width: auto; margin-top: 10px; padding: 8px 30px;" onclick="copyImageUrl()">📋 Copy Link</button>
+</div>
+        <div class="button-container" style="display: flex; justify-content: center; margin-top: 20px;">
+            <button id="uploadBtn" class="tool-btn action-btn" style="width: auto; padding: 10px 40px;" onclick="uploadImage()">
+                🚀 Get Link
+            </button>
+        </div>
+
+        <div class="modal-footer">
+            Developed by <span class="developer-name">| Sazzad</span>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

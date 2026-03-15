@@ -1,0 +1,471 @@
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:Arial;
+background:black;
+color:white;
+text-align:center;
+}
+
+/* matrix canvas */
+
+#matrix{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
+}
+
+
+/* red line */
+
+.red-line {
+    border: none;            /* ডিফল্ট বর্ডার রিমুভ */
+    height: 3px;             /* লাইনের পুরুত্ব */
+    background-color: red;    /* লাইনের মূল রঙ */
+    width: 80%;              /* লাইনের দৈর্ঘ্য (কম-বেশি করতে পারেন) */
+    margin: 5px auto 40px auto;       /* উপরে নিচে গ্যাপ এবং মাঝখানে সেট করা */
+    border-radius: 5px;      /* লাইনের কোণা সামান্য গোল করা */
+    
+    /* নিয়ন গ্লো ইফেক্ট */
+    box-shadow: 0 0 10px red, 0 0 5px rgb(185, 1, 1); 
+}
+
+/* content */
+
+.content{
+padding:20px;
+}
+
+/* title */
+
+.title{
+font-size:38px;
+color:red;
+font-family: 'Orbitron', sans-serif;
+font-weight: 900;
+text-transform: uppercase;
+
+
+
+text-shadow:
+0 0 20px red,
+0 0 40px red,
+0 0 80px red,
+0 0 120px red;
+
+
+
+margin-bottom:5px;
+}
+
+
+@keyframes redGlow{
+0%{
+text-shadow:
+0 0 15px red,
+0 0 30px red,
+0 0 60px red;
+}
+
+100%{
+text-shadow:
+0 0 40px red,
+0 0 80px red,
+0 0 150px red;
+}
+}
+
+/* notice box */
+
+.notice-box{
+width:100%;
+overflow:hidden;
+
+border:2px solid #00d9ff;
+border-radius:20px;
+
+box-shadow:0 0 10px #00ff9d;
+
+padding:12px 0;
+margin-bottom:70px;
+
+background:#0a0a16;
+}
+
+/* moving slogan */
+
+.notice-text{
+white-space:nowrap;
+display:inline-block;
+
+color:#00ff00;
+font-size:20px;
+
+text-shadow:0 0 10px #00ff00;
+
+animation:scrollText 12s linear infinite;
+}
+
+@keyframes scrollText{
+0%{transform:translateX(100%)}
+100%{transform:translateX(-100%)}
+}
+
+/* tool container */
+
+.tools{
+display:flex;
+flex-direction:column;
+gap:30px;
+}
+
+/* buttons */
+
+.tool-btn{
+
+position:relative;
+
+padding:24px;
+font-size:18px;
+
+background:#0a0a16;
+color:white;
+
+border:none;
+border-radius:10px;
+
+cursor:pointer;
+
+overflow:hidden;
+z-index:1;
+
+box-shadow:0 0 20px #ff00dd;
+
+transition:transform 0.2s ease, box-shadow 0.2s ease;
+
+}
+
+/* button border */
+
+.tool-btn::before{
+content:"";
+position:absolute;
+
+top:-2px;
+left:-2px;
+right:-2px;
+bottom:-2px;
+
+background:#ff00dd;
+
+border-radius:12px;
+
+z-index:-1;
+}
+
+/* button inner body */
+
+.tool-btn::after{
+content:"";
+position:absolute;
+
+top:2px;
+left:2px;
+right:2px;
+bottom:2px;
+
+background:#0a0a16;
+
+border-radius:10px;
+
+z-index:-1;
+}
+
+/* hover effect */
+
+.tool-btn:hover{
+transform:scale(1.05);
+
+box-shadow:
+0 0 20px #ff00dd,
+0 0 20px #ff00dd;
+}
+
+/* modal background */
+
+.modal{
+display:none;
+position:fixed;
+
+z-index:9999;
+
+left:0;
+top:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,0.85);
+
+backdrop-filter:blur(4px);
+
+align-items:center;
+justify-content:center;
+}
+
+/* modal box */
+
+.modal-content{
+
+background:#0a0a16;
+
+padding:30px;
+
+border:2px solid #00f7ff;
+
+width:90%;
+max-width:400px;
+
+border-radius:20px;
+
+box-shadow:
+0 0 20px #00f7ff,
+inset 0 0 20px #00f7ff;
+
+text-align:center;
+
+position:relative;
+
+}
+
+/* input box */
+
+textarea#inputText{
+
+width:100%;
+height:120px;
+
+background:#000;
+color:#fff;
+
+border:1.5px solid #00f7ff;
+
+border-radius:12px;
+
+padding:10px;
+
+margin-top:15px;
+
+outline:none;
+
+resize:none;
+
+}
+
+/* modal footer */
+
+.modal-footer{
+
+margin-top:25px;
+
+font-size:14px;
+
+color:#888;
+
+}
+
+.developer-name{
+
+color:#00f7ff;
+
+text-shadow:0 0 5px #00f7ff;
+
+}
+
+/* modal title */
+
+.glitch-title{
+
+font-size:26px;
+
+color:#00f7ff;
+
+text-shadow:
+2px 0 #ff00c8,
+-2px 0 #00f7ff;
+
+animation:glitch-anim 1s infinite alternate;
+
+}
+
+@keyframes glitch-anim{
+
+0%{
+text-shadow:
+2px 0 #ff00c8,
+-2px 0 #00f7ff;
+}
+
+100%{
+text-shadow:
+-2px 0 #ff00c8,
+2px 0 #00f7ff;
+}
+
+}
+
+/* close button */
+
+.close{
+
+position:absolute;
+
+bottom:-80px;
+left:50%;
+
+transform:translateX(-50%);
+
+color:white;
+
+font-size:35px;
+
+cursor:pointer;
+
+}
+
+/* action button */
+
+.action-btn{
+
+background:#0a0a16 !important;
+
+color:white !important;
+
+padding:10px 25px !important;
+
+border-radius:10px !important;
+
+box-shadow:0 0 10px #00f7ff !important;
+
+cursor:pointer;
+
+font-weight:bold;
+
+margin-top: 15px;
+
+}
+
+.action-btn:hover{
+
+transform:scale(1.05);
+
+box-shadow:0 0 20px #ff00c8 !important;
+
+}
+
+/* result box */
+
+.result-container{
+
+margin-top:20px;
+
+background:rgba(0,0,0,0.5);
+
+border:1px dashed #00f7ff;
+
+border-radius:10px;
+
+padding:10px;
+
+min-height:50px;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+}
+
+/* result text */
+
+.result-text{
+
+color:#00ff00;
+
+font-family:'Courier New', monospace;
+
+word-break:break-all;
+
+margin-bottom:10px;
+
+}
+
+/* copy button */
+
+.copy-btn{
+
+background:#00f7ff;
+
+color:#000;
+
+border:none;
+
+padding:5px 15px;
+
+border-radius:5px;
+
+cursor:pointer;
+
+font-size:12px;
+
+font-weight:bold;
+
+transition:0.3s;
+
+}
+
+.copy-btn:hover{
+
+background:#ff00c8;
+
+color:#fff;
+
+}
+
+/* upload box */
+
+.upload-box{
+
+border:2px dashed #00f7ff;
+
+padding:20px;
+
+border-radius:15px;
+
+margin-top:15px;
+
+background:rgba(0,247,255,0.05);
+
+}
+
+#imageInput{
+color:white;
+width:100%;
+}
+
+
+/* modal open করার জন্য */
+
+.modal.show{
+display:flex !important;
+}
+
+
+
