@@ -607,3 +607,196 @@ async function uploadImage() {
         uploadBtn.innerText = "🚀 Get Link";
     }
 }
+
+// ৫. ইমেজ লিঙ্ক কপি করার ফাংশন
+function copyImageUrl() {
+    const urlInput = document.getElementById("imageUrl");
+    const copyBtn = document.querySelector("#imageResult .copy-btn");
+
+    if (!urlInput.value || urlInput.value === "") {
+        alert("কপি করার মতো কোনো লিঙ্ক নেই!");
+        return;
+    }
+
+    // টেক্সট সিলেক্ট এবং কপি করা
+    urlInput.select();
+    urlInput.setSelectionRange(0, 99999); // মোবাইলের জন্য
+
+    try {
+        document.execCommand("copy");
+        
+        // বাটন ফিডব্যাক (বাটন নীল থেকে সবুজ হবে)
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = "✅ Copied!";
+        copyBtn.style.background = "#00ff00"; 
+        copyBtn.style.color = "#000";
+
+        // ২ সেকেন্ড পর আবার আগের মতো হয়ে যাবে
+        setTimeout(() => {
+            copyBtn.innerHTML = originalText;
+            copyBtn.style.background = "#00f7ff"; 
+        }, 2000);
+
+    } catch (err) {
+        alert("কপি করা যায়নি, ম্যানুয়ালি চেষ্টা করুন।");
+    }
+}
+
+
+
+
+
+
+
+// ১. মডাল কন্ট্রোল
+function passModal() {
+    document.getElementById("passModal").style.display = "flex";
+    document.getElementById("passModal").classList.add("show");
+}
+
+function closePassModal() {
+    document.getElementById("passModal").style.display = "none";
+    document.getElementById("passModal").classList.remove("show");
+}
+
+// ২. হাই-লেভেল পাসওয়ার্ড জেনারেশন লজিক
+function generatePassword() {
+    const length = document.getElementById("passLength").value;
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+    let password = "";
+    
+    // Crypto API ব্যবহার করা হয়েছে যা অত্যন্ত সিকিউর
+    const array = new Uint32Array(length);
+    window.crypto.getRandomValues(array);
+
+    for (let i = 0; i < length; i++) {
+        password += charset[array[i] % charset.length];
+    }
+
+    document.getElementById("passDisplay").innerText = password;
+}
+
+// ৩. কপি ফাংশন
+function copyPass() {
+    const passText = document.getElementById("passDisplay").innerText;
+    if (passText === "Click Generate") return;
+
+    navigator.clipboard.writeText(passText).then(() => {
+        const btn = document.querySelector("#passModal .copy-btn");
+        btn.innerText = "✅ Copied!";
+        setTimeout(() => { btn.innerText = "Copy Password"; }, 2000);
+    });
+}
+
+
+
+
+
+
+
+
+
+
+// ১. মডাল কন্ট্রোল
+function ageModal() {
+    document.getElementById("ageModal").style.display = "flex";
+    document.getElementById("ageModal").classList.add("show");
+}
+
+function closeAgeModal() {
+    // ১. মডাল বন্ধ করা
+    const modal = document.getElementById("ageModal");
+    modal.style.display = "none";
+    modal.classList.remove("show");
+
+    // ২. ইনপুট বক্সগুলোর ডেটা ক্লিয়ার করা
+    document.getElementById("day").value = "";
+    document.getElementById("month").value = "";
+    document.getElementById("year").value = "";
+
+    // ৩. রেজাল্ট বক্সটি লুকিয়ে ফেলা (যাতে পরেরবার খোলার সময় আগের রেজাল্ট না থাকে)
+    const resultArea = document.getElementById("ageResultArea");
+    if (resultArea) {
+        resultArea.style.display = "none";
+    }
+
+    // ৪. রেজাল্ট টেক্সট খালি করা
+    const display = document.getElementById("ageDisplay");
+    if (display) {
+        display.innerHTML = "";
+    }
+}
+
+// ২. বয়স বের করার মেইন লজিক
+
+
+function calculateAge() {
+    // ৩টি বক্স থেকে ভ্যালু নেওয়া
+    const d = parseInt(document.getElementById("day").value);
+    const m = parseInt(document.getElementById("month").value);
+    const y = parseInt(document.getElementById("year").value);
+
+    // ইনপুট চেক করা
+    if (!d || !m || !y || d > 31 || m > 12 || y < 1900) {
+        alert("দয়া করে সঠিক দিন, মাস এবং বছর দিন!");
+        return;
+    }
+
+    const today = new Date();
+    const birthDate = new Date(y, m - 1, d);
+
+    let years = today.getFullYear() - birthDate.getFullYear();
+    let months = today.getMonth() - birthDate.getMonth();
+    let days = today.getDate() - birthDate.getDate();
+
+    if (days < 0) {
+        months--;
+        const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+        days += lastMonth.getDate();
+    }
+
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+
+    // রেজাল্ট দেখানো
+    const resultArea = document.getElementById("ageResultArea");
+    const display = document.getElementById("ageDisplay");
+    
+    if (years < 0) {
+        alert("জন্ম তারিখ ভবিষ্যতের হতে পারে না!");
+        return;
+    }
+
+    display.innerHTML = `<span style="color: #00f7ff; font-weight: bold;">Age:</span> ${years} Years, ${months} Months, ${days} Days`;
+    resultArea.style.display = "block";
+}
+
+function limitAndJump(current, nextId, limit) {
+    // যদি ইনপুটের দৈর্ঘ্য লিমিট ছাড়িয়ে যায়, তবে কেটে ছোট করে দিবে
+    if (current.value.length > limit) {
+        current.value = current.value.slice(0, limit);
+    }
+
+    // যদি লিমিট পূর্ণ হয় এবং পরের বক্সের আইডি থাকে, তবে সেখানে অটো চলে যাবে
+    if (current.value.length === limit && nextId !== "") {
+        document.getElementById(nextId).focus();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
