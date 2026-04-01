@@ -90,7 +90,7 @@ overflow:hidden;
 border:2px solid #00d9ff;
 border-radius:20px;
 
-box-shadow:0 0 10px #00ff9d;
+box-shadow:0 0 20px #00d9ff;
 
 padding:12px 0;
 margin-bottom:70px;
@@ -131,8 +131,8 @@ gap:30px;
 
 position:relative;
 
-padding:24px;
-font-size:18px;
+padding:23px;
+font-size:20px;
 
 background:#0a0a16;
 color:white;
@@ -147,7 +147,7 @@ z-index:1;
 
 box-shadow:0 0 20px #ff00dd;
 
-transition:transform 0.2s ease, box-shadow 0.2s ease;
+transition:transform 0.1s ease, box-shadow 0.1s ease;
 
 }
 
@@ -285,6 +285,8 @@ color:#888;
 color:#00f7ff;
 
 text-shadow:0 0 5px #00f7ff;
+
+font-family:'Courier New', monospace;
 
 }
 
@@ -469,3 +471,14 @@ display:flex !important;
 
 
 
+/* Chrome, Safari, Edge, Opera থেকে অ্যারো বাটন সরানো */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox থেকে অ্যারো বাটন সরানো */
+input[type=number] {
+  -moz-appearance: textfield;
+}
