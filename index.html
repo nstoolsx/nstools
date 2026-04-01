@@ -50,6 +50,18 @@ onclick="linkModal()">Link Checker</button>
 <button class="tool-btn"
 onclick="imageModal()">Image to Link</button>
 
+<button class="tool-btn"
+ onclick="passModal()">Password Generator</button>
+
+<button class="tool-btn"
+ onclick="ageModal()">Age Calculator</button>
+
+<button class="tool-btn"
+onclick="morseModal()"style="display: none;">Morse Code Converter</button>
+
+
+
+
 </div>
 
 </div>
@@ -355,12 +367,95 @@ async function removeBackground() {
             </button>
         </div>
 
+        
         <div class="modal-footer">
             Developed by <span class="developer-name">| Sazzad</span>
         </div>
     </div>
 </div>
 
+
+
+
+
+
+
+<div id="passModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closePassModal()">&times;</span>
+        <h2 class="glitch-title">Pass Generator</h2>
+        
+        <div class="upload-box" style="border: 1px dashed #fff; padding: 15px;">
+            <label style="color: #fff; font-size: 14px;">Length: <span id="lengthVal">16</span></label>
+            <input type="range" id="passLength" min="8" max="32" value="16" style="width: 100%; margin: 10px 0;" oninput="document.getElementById('lengthVal').innerText = this.value">
+        </div>
+
+        <div class="result-container" style="margin-top: 20px;">
+            <div id="passDisplay" class="result-text" style="color: greenyellow; font-size: 18px;">Click Generate</div>
+            <button class="copy-btn" onclick="copyPass()">Copy Password</button>
+        </div>
+
+
+        <div class="button-container" style="display: flex; justify-content: center; margin-top: 20px;">
+            <button id="PassGetBtn" class="tool-btn action-btn" style="width: auto; padding: 10px 40px;" onclick="generatePassword()">⚡ Generate</button>
+        </div>
+
+
+        <div class="modal-footer">
+            Developed by <span class="developer-name">| Sazzad</span>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<div id="ageModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeAgeModal()">&times;</span>
+        <h2 class="glitch-title">Age Calculator</h2>
+        
+        <div class="upload-box" style="padding: 20px;">
+    <label style="color: #fff; display: block; margin-bottom: 10px;">Enter Birth Date:</label>
+    <div style="display: flex; gap: 10px; justify-content: center;">
+        <input type="number" id="day" placeholder="DD" oninput="limitAndJump(this, 'month', 2)" style="width: 60px; padding: 10px; background: #000; color: #00f7ff; border: 1.5px solid #00f7ff; border-radius: 8px; text-align: center; outline: none;">
+        
+        <input type="number" id="month" placeholder="MM" oninput="limitAndJump(this, 'year', 2)" style="width: 60px; padding: 10px; background: #000; color: #00f7ff; border: 1.5px solid #00f7ff; border-radius: 8px; text-align: center; outline: none;">
+        
+        <input type="number" id="year" placeholder="YYYY" oninput="limitAndJump(this, '', 4)" style="width: 100px; padding: 10px; background: #000; color: #00f7ff; border: 1.5px solid #00f7ff; border-radius: 8px; text-align: center; outline: none;">
+    </div>
+</div>
+
+        <div id="ageResultArea" class="result-container" style="margin-top: 20px; display: none; background: rgba(0, 247, 255, 0.1); border: 1px solid #00f7ff;">
+            <div id="ageDisplay" class="result-text" style="color: #fff; font-size: 16px; line-height: 1.6;"></div>
+        </div>
+
+        <div class="button-container" style="display: flex; justify-content: center; margin-top: 20px;">
+            <button id="calcBtn" class="tool-btn action-btn" style="width: auto; padding: 10px 40px;" onclick="calculateAge()">⏳ Calculate Age</button>
+        </div>
+
+        <div class="modal-footer">
+            Developed by <span class="developer-name">| Sazzad</span>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 
 </html>
+
