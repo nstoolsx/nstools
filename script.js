@@ -244,34 +244,29 @@ function getThumbnails() {
 }
 
 // ৩. সরাসরি ডাউনলোড (Blob Method)
-async function downloadThumbnail() {
-    const imageUrl = document.getElementById("thumbPreview").src;
+function downloadQR() {
+    const qrContainer = document.getElementById("qrcode");
+    const qrImg = qrContainer.querySelector("img");
+    const qrCanvas = qrContainer.querySelector("canvas");
     
-    if (!imageUrl) return;
+    let imageSource;
 
-    try {
-        // 'Downloading...' টেক্সট দেখানো (ইউজারের সুবিধার জন্য)
-        const btn = event.target;
-        const originalText = btn.innerText;
-        btn.innerText = "⏳ Downloading...";
-
-        const res = await fetch(imageUrl);
-        const blob = await res.blob();
-        const url = URL.createObjectURL(blob);
-        
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'Sazzad_Thumbnail.jpg';
-        document.body.appendChild(a);
-        a.click();
-        
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        btn.innerText = originalText;
-    } catch (e) {
-        // যদি Blob ব্লক হয় তবে নতুন ট্যাবে ওপেন হবে
-        window.open(imageUrl, '_blank');
+    if (qrImg && qrImg.src && qrImg.src.startsWith("data:image")) {
+        imageSource = qrImg.src;
+    } else if (qrCanvas) {
+        imageSource = qrCanvas.toDataURL("image/png");
+    } else {
+        alert("কিউআর কোডটি আগে তৈরি করুন!");
+        return;
     }
+
+    // মোবাইল এবং পিসি দুই জায়গাতেই কাজ করার জন্য শক্তিশালী লজিক
+    const link = document.createElement('a');
+    link.href = imageSource;
+    link.download = 'NS_Tools_QR.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
 // থাম্বনেইল মডাল বন্ধ করার ফাংশন
